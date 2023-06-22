@@ -2,10 +2,12 @@ package com.revature.controllers;
 
 import com.revature.daos.EmployeeDAO;
 import com.revature.daos.PositionDAO;
+import com.revature.dto.AuthResponseDTO;
 import com.revature.dto.LoginDTO;
 import com.revature.dto.RegisterDTO;
 import com.revature.models.Employee;
 import com.revature.models.Position;
+import com.revature.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +33,15 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtGenerator jwtGenerator;
+
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, EmployeeDAO employeeDAO, PositionDAO positionDAO, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, EmployeeDAO employeeDAO, PositionDAO positionDAO, PasswordEncoder passwordEncoder, JwtGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.employeeDAO = employeeDAO;
         this.positionDAO = positionDAO;
         this.passwordEncoder = passwordEncoder;
+        this.jwtGenerator = jwtGenerator;
     }
 
     @PostMapping("register")
@@ -59,13 +64,14 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("Account successfully signed in!", HttpStatus.OK);
+//        return new ResponseEntity<>("Account successfully signed in!", HttpStatus.OK);
+        String token = jwtGenerator.generateToken(authentication);
 
     }
 }
