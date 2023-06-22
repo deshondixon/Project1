@@ -46,8 +46,8 @@ public class EmployeeController {
         return employeeService.registerForReimbursement(eid, rid);
     }
 
-    @DeleteMapping("{eid}/reimbursements/register/{rid}")
-    public Employee unregisterForReimbursementHandler(@PathVariable("rid") int rid, @PathVariable("eid") int eid){
+    @DeleteMapping("{eid}/reimbursements/unregister/{rid}")
+    public Employee unregisterForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid){
         return employeeService.unregisterForReimbursement(eid, rid);
     }
 }
