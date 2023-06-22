@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.models.Employee;
+import com.revature.models.Reimbursement;
 import com.revature.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     public boolean deleteEmployeeHandler(@PathVariable("id") int id){
         return employeeService.deleteEmployeeById(id);
+    }
+
+
+    @GetMapping("{id}/reimbursements")
+    public List<Reimbursement> getReimbursementsFromReimbursementHandler(@PathVariable("id") int id){
+        return employeeService.getReimbursementByEmployeeId(id);
     }
 }
 
