@@ -4,6 +4,7 @@ import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,16 @@ public class EmployeeController {
     @GetMapping("{id}/reimbursements")
     public List<Reimbursement> getReimbursementsFromReimbursementHandler(@PathVariable("id") int id){
         return employeeService.getReimbursementByEmployeeId(id);
+    }
+
+    @PostMapping("reimbursements/{rid}/register/{eid}")
+    public Employee registerForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid){
+        return employeeService.registerForReimbursement(eid, rid);
+    }
+
+    @DeleteMapping("reimbursements/{rid}/register/{eid}")
+    public Employee unregisterForReimbursementHandler(@PathVariable("rid") int rid, @PathVariable("eid") int eid){
+        return employeeService.unregisterForReimbursement(eid, rid);
     }
 }
 
