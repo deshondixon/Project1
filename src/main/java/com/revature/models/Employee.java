@@ -19,7 +19,9 @@ public class Employee {
     private String lastName;
 
     @ManyToOne
+    @JoinColumn(name = "position_id")
     private Position position;
+
 
     @Column(unique = true)
     private String username;
