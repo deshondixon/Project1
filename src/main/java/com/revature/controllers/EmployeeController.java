@@ -2,9 +2,9 @@ package com.revature.controllers;
 
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
+import com.revature.security.JwtGenerator;
 import com.revature.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +14,12 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+    private final JwtGenerator jwtGenerator;
+
     @Autowired
-    public EmployeeController(EmployeeService employeeService) { this.employeeService = employeeService;}
+    public EmployeeController(EmployeeService employeeService, JwtGenerator jwtGenerator) { this.employeeService = employeeService;
+        this.jwtGenerator = jwtGenerator;
+    }
 
     //GET-ALL
     @GetMapping
@@ -43,7 +47,9 @@ public class EmployeeController {
 
     // register
     @PostMapping("{eid}/reimbursements/register/{rid}")
-    public Employee registerForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid){
+    public Employee registerForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid, @RequestHeader("Authorization") String bearerToken ){
+        String username = jwtGenerator.getUsernameFromToken(bearerToken.substring(7));
+        Employee e = employeeService.findEmployeeByUsername(username);
         return employeeService.registerForReimbursement(eid, rid);
     }
 

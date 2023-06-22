@@ -70,9 +70,7 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-//        return new ResponseEntity<>("Account successfully signed in!", HttpStatus.OK);
         String token = jwtGenerator.generateToken(authentication);
-
         return new ResponseEntity<AuthResponseDTO>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 }
