@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/reimbursements/**").hasAuthority("Employee")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
