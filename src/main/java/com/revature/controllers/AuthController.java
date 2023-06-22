@@ -2,6 +2,7 @@ package com.revature.controllers;
 
 import com.revature.daos.EmployeeDAO;
 import com.revature.daos.PositionDAO;
+import com.revature.dto.LoginDTO;
 import com.revature.dto.RegisterDTO;
 import com.revature.models.Employee;
 import com.revature.models.Position;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +54,18 @@ public class AuthController {
         e.setPosition(position);
         employeeDAO.save(e);
 
-        return new ResponseEntity<>("Registration was successful!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Account Registration was successful!", HttpStatus.CREATED);
+
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("Account successfully signed in!", HttpStatus.OK);
 
     }
 }
