@@ -41,12 +41,12 @@ public class EmployeeController {
         return employeeService.getReimbursementByEmployeeId(id);
     }
 
-    @PostMapping("reimbursements/{rid}/register/{eid}")
+    @PostMapping("{rid}/reimbursements/register/{eid}")
     public Employee registerForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid){
         return employeeService.registerForReimbursement(eid, rid);
     }
 
-    @DeleteMapping("reimbursements/{rid}/register/{eid}")
+    @DeleteMapping("{rid}/reimbursements/register/{eid}")
     public Employee unregisterForReimbursementHandler(@PathVariable("rid") int rid, @PathVariable("eid") int eid){
         return employeeService.unregisterForReimbursement(eid, rid);
     }
