@@ -10,6 +10,8 @@ import java.util.List;
 @Service
 public class ReimbursementService {
 
+
+
     private final ReimbursementDAO reimbursementDAO;
 
     @Autowired
@@ -56,5 +58,7 @@ public class ReimbursementService {
     public List<Reimbursement> searchReimbursements(String searchPattern){
         return reimbursementDAO.findByDescriptionContainingIgnoreCase(searchPattern);
     }
+
+
 
 }

@@ -28,5 +28,7 @@ public class Reimbursement {
     @Column(name = "expense_amount")
     private BigDecimal expenseAmount;
 
+    public void setEmployee(Employee employee) {
+    }
 }
 
