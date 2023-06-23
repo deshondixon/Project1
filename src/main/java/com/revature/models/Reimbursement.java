@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Table(name="reimbursements")
@@ -23,10 +22,11 @@ public class Reimbursement {
     @Column(unique = true)
     private String description;
 
-    @Column(name = "submission_date")
-    private LocalDate submissionDate;
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) default 'Pending'")
+    private String status;
 
     @Column(name = "expense_amount")
     private BigDecimal expenseAmount;
 
 }
+

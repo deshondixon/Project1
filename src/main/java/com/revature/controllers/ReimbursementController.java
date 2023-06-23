@@ -2,17 +2,25 @@ package com.revature.controllers;
 
 import com.revature.models.Reimbursement;
 import com.revature.services.ReimbursementService;
+import com.revature.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("reimbursements")
 public class ReimbursementController {
+
     private final ReimbursementService reimbursementService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public ReimbursementController(ReimbursementService reimbursementService){ this.reimbursementService = reimbursementService; }
+    public ReimbursementController(ReimbursementService reimbursementService, EmployeeService employeeService) {
+        this.reimbursementService = reimbursementService;
+        this.employeeService = employeeService;
+    }
+
 
     //GET-ALL
     @GetMapping
@@ -23,6 +31,7 @@ public class ReimbursementController {
         return reimbursementService.getAllReimbursements();
     }
 
+
     //GET BY ID
     @GetMapping({"id"})
     public Reimbursement findReimbursementByIdHandler(@PathVariable("id") int id){
@@ -32,6 +41,9 @@ public class ReimbursementController {
     //INSERT
     @PostMapping
     public Reimbursement createReimbursementHandler(@RequestBody Reimbursement r){
+        if (r.getStatus() == null) {
+            r.setStatus("Pending");
+        }
         return reimbursementService.addReimbursement(r);
     }
 
@@ -46,5 +58,20 @@ public class ReimbursementController {
     public boolean deleteReimbursementHandler(@PathVariable("id") int id){
         return reimbursementService.deleteReimbursement(id);
     }
+
+    @PostMapping("/submit")
+    public Reimbursement submitReimbursementHandler(@RequestBody Reimbursement reimbursement, @RequestParam("employeeId") int employeeId) {
+        // Set the status and any other necessary fields of the reimbursement
+        reimbursement.setStatus("Pending");
+
+        // Save the reimbursement
+        Reimbursement savedReimbursement = reimbursementService.addReimbursement(reimbursement);
+
+        // Register the reimbursement to the employee
+        employeeService.registerForReimbursement(employeeId, savedReimbursement.getId());
+
+        return savedReimbursement;
+    }
+
 
 }

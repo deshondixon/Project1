@@ -16,6 +16,7 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+
     private final JwtGenerator jwtGenerator;
 
     @Autowired
@@ -60,11 +61,32 @@ public class EmployeeController {
         }
     }
 
+    public Employee registerForReimbursement(int employeeId, int reimbursementId) {
+        Employee employee = getEmployeeById(employeeId);
+        Reimbursement reimbursement = reimbursementService.findReimbursementById(reimbursementId);
+
+        List<Reimbursement> reimbursements = employee.getReimbursements();
+
+        if (!reimbursements.contains(reimbursement)) {
+            reimbursements.add(reimbursement);
+            employee.setReimbursements(reimbursements);
+            employeeDAO.save(employee);
+        }
+
+        return employee;
+    }
+
+    private Employee getEmployeeById(int employeeId) {
+    }
+
+
     // unregister
     @DeleteMapping("{eid}/reimbursements/unregister/{rid}")
     public Employee unregisterForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid){
         return employeeService.unregisterForReimbursement(eid, rid);
     }
+
+
 }
 
 
