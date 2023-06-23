@@ -59,19 +59,5 @@ public class ReimbursementController {
         return reimbursementService.deleteReimbursement(id);
     }
 
-    @PostMapping("/submit")
-    public Reimbursement submitReimbursementHandler(@RequestBody Reimbursement reimbursement, @RequestParam("employeeId") int employeeId) {
-        // Set the status and any other necessary fields of the reimbursement
-        reimbursement.setStatus("Pending");
-
-        // Save the reimbursement
-        Reimbursement savedReimbursement = reimbursementService.addReimbursement(reimbursement);
-
-        // Register the reimbursement to the employee
-        employeeService.registerForReimbursement(employeeId, savedReimbursement.getId());
-
-        return savedReimbursement;
-    }
-
 
 }
