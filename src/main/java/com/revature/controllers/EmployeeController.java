@@ -146,9 +146,9 @@ public class EmployeeController {
         }
     }
 
-    // Unregister
-    @DeleteMapping("{eid}/reimbursements/unregister/{rid}")
-    public Employee unregisterForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid) {
-        return employeeService.unregisterForReimbursement(eid, rid);
-    }
+//    // Unregister
+//    @DeleteMapping("{eid}/reimbursements/unregister/{rid}")
+//    public Employee unregisterForReimbursementHandler(@PathVariable("eid") int eid, @PathVariable("rid") int rid) {
+//        return employeeService.unregisterForReimbursement(eid, rid);
+//    }
 }
