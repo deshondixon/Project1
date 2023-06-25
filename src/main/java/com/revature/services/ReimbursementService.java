@@ -31,9 +31,9 @@ public class ReimbursementService {
         Reimbursement returnedReimbursement = reimbursementDAO.save(reimbursement);
 
         if (returnedReimbursement.getId() > 0) {
-            //ADD
+            return returnedReimbursement;
         } else {
-            //ADD
+            System.out.println("Reimbursement failed to add");
         }
         return returnedReimbursement;
     }

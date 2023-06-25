@@ -97,22 +97,4 @@ public class EmployeeService {
         }
         return e;
     }
-
-    public Employee unregisterForReimbursement(int eid, int rid) {
-        Employee e = getEmployeeById(eid);
-
-        List<Reimbursement> reimbursements = e.getReimbursements();
-
-        Optional<Reimbursement> returnedReimbursement = reimbursementDAO.findById(rid);
-
-        if (returnedReimbursement.isPresent() && reimbursements.contains(returnedReimbursement.get())) {
-            reimbursements.remove(returnedReimbursement.get());
-            e.setReimbursements(reimbursements);
-            employeeDAO.save(e);
-        } else {
-            throw new ReimbursementNotFoundException("No reimbursement with id: " + eid);
-        }
-        return e;
-
-    }
 }
