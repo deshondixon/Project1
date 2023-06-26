@@ -91,6 +91,7 @@ import java.util.List;
 @Configuration
 @ComponentScan("com.revature.services")
 @RequestMapping("employees")
+@CrossOrigin
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final ReimbursementService reimbursementService;
