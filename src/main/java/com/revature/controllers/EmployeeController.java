@@ -91,7 +91,7 @@ import java.util.List;
 @Configuration
 @ComponentScan("com.revature.services")
 @RequestMapping("employees")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final ReimbursementService reimbursementService;
