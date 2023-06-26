@@ -90,7 +90,7 @@ import java.util.List;
 @RestController
 @Configuration
 @ComponentScan("com.revature.services")
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final ReimbursementService reimbursementService;
