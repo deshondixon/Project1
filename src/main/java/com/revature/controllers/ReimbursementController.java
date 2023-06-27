@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("reimbursements")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ReimbursementController {
 
     private final ReimbursementService reimbursementService;
@@ -33,7 +34,7 @@ public class ReimbursementController {
 
 
     //GET BY ID
-    @GetMapping({"id"})
+    @GetMapping("/{id}")
     public Reimbursement findReimbursementByIdHandler(@PathVariable("id") int id){
         return reimbursementService.findReimbursementById(id);
     }
@@ -47,10 +48,18 @@ public class ReimbursementController {
         return reimbursementService.addReimbursement(r);
     }
 
-    //UPDATE
-    @PutMapping
-    public Reimbursement updateReimbursementHandler(@RequestBody Reimbursement r){
-        return reimbursementService.updateReimbursement(r);
+    // UPDATE
+    @PutMapping("/{id}")
+    public Reimbursement updateReimbursementHandler(@PathVariable("id") int id, @RequestBody Reimbursement updatedReimbursement) {
+        Reimbursement existingReimbursement = reimbursementService.findReimbursementById(id);
+
+        if (existingReimbursement != null) {
+            existingReimbursement.setStatus(updatedReimbursement.getStatus());
+
+            return reimbursementService.updateReimbursement(existingReimbursement);
+        } else {
+            throw new IllegalArgumentException("Reimbursement with ID " + id + " not found");
+        }
     }
 
     //DELETE
