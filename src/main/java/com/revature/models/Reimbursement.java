@@ -30,5 +30,16 @@ public class Reimbursement {
 
     public void setEmployee(Employee employee) {
     }
+
+    public void setEmployeeId(int id) {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 

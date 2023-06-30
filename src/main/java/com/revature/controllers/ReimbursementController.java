@@ -1,11 +1,13 @@
 package com.revature.controllers;
 
+import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.services.ReimbursementService;
 import com.revature.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -41,10 +43,17 @@ public class ReimbursementController {
 
     //INSERT
     @PostMapping
-    public Reimbursement createReimbursementHandler(@RequestBody Reimbursement r){
+    public Reimbursement createReimbursementHandler(@RequestBody Reimbursement r, Principal principal) {
+        String username = principal.getName();
+
+        Employee employee = employeeService.findEmployeeByUsername(username);
+
+        r.setEmployeeId(employee.getId());
+
         if (r.getStatus() == null) {
             r.setStatus("Pending");
         }
+
         return reimbursementService.addReimbursement(r);
     }
 
